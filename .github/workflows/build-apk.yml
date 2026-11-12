@@ -36,9 +36,20 @@ jobs:
           printf '{\n  "appId": "com.leandrocorrea.docscan",\n  "appName": "DocScan Pro",\n  "webDir": "dist"\n}\n' > capacitor.config.json
           npx cap add android
 
-      - name: 6. Adicionar permissão de Câmera no AndroidManifest
+      - name: 6. Configurar permissões e corrigir conflito Kotlin
         run: |
           sed -i 's/<application/<uses-permission android:name="android.permission.CAMERA" \/>\n    <application/' android/app/src/main/AndroidManifest.xml
+          cat << 'EOF' >> android/build.gradle
+          subprojects {
+              configurations.all {
+                  resolutionStrategy {
+                      force 'org.jetbrains.kotlin:kotlin-stdlib:1.8.22'
+                      force 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.22'
+                      force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22'
+                  }
+              }
+          }
+          EOF
 
       - name: 7. Compilar o arquivo APK
         run: |
