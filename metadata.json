@@ -1,0 +1,6 @@
+{
+  "name": "DocScan Pro - CamScanner Android Nativo & Simulador",
+  "description": "Aplicativo Android Nativo completo (Kotlin, Jetpack Compose, Google ML Kit Document Scanner) sem anúncios ou marcas d'água, com simulador web interativo e gerador de projeto Android Studio.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
