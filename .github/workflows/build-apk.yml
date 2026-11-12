@@ -18,11 +18,11 @@ jobs:
         with:
           node-version: 20
 
-      - name: 3. Configurar Java 17 (Exigido pelo Android)
+      - name: 3. Configurar Java 21 (Exigido pelo Capacitor/Android)
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
 
       - name: 4. Instalar dependências e compilar Web App
         run: |
