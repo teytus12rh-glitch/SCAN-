@@ -32,7 +32,8 @@ jobs:
       - name: 5. Configurar Capacitor e criar projeto Android
         run: |
           npm install @capacitor/core @capacitor/cli @capacitor/android --legacy-peer-deps
-          npx cap init "DocScan Pro" "com.leandrocorrea.docscan" --web-dir=dist
+          rm -f capacitor.config.ts
+          printf '{\n  "appId": "com.leandrocorrea.docscan",\n  "appName": "DocScan Pro",\n  "webDir": "dist"\n}\n' > capacitor.config.json
           npx cap add android
 
       - name: 6. Adicionar permissão de Câmera no AndroidManifest
