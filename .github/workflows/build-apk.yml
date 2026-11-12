@@ -26,12 +26,12 @@ jobs:
 
       - name: 4. Instalar dependências e compilar Web App
         run: |
-          npm install
+          npm install --legacy-peer-deps
           npm run build
 
       - name: 5. Configurar Capacitor e criar projeto Android
         run: |
-          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npm install @capacitor/core @capacitor/cli @capacitor/android --legacy-peer-deps
           npx cap init "DocScan Pro" "com.leandrocorrea.docscan" --web-dir=dist
           npx cap add android
 
