@@ -1,0 +1,52 @@
+name: Gerar APK Android
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Baixar código do repositório
+        uses: actions/checkout@v4
+
+      - name: 2. Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 3. Configurar Java 17 (Exigido pelo Android)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: 4. Instalar dependências e compilar Web App
+        run: |
+          npm install
+          npm run build
+
+      - name: 5. Configurar Capacitor e criar projeto Android
+        run: |
+          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npx cap init "DocScan Pro" "com.leandrocorrea.docscan" --web-dir=dist
+          npx cap add android
+
+      - name: 6. Adicionar permissão de Câmera no AndroidManifest
+        run: |
+          sed -i 's/<application/<uses-permission android:name="android.permission.CAMERA" \/>\n    <application/' android/app/src/main/AndroidManifest.xml
+
+      - name: 7. Compilar o arquivo APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: 8. Disponibilizar APK para Download
+        uses: actions/upload-artifact@v4
+        with:
+          name: DocScan-Pro-LeandroCorrea
+          path: android/app/build/outputs/apk/debug/app-debug.apk
